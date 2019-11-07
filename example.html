@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TiDB Wasm Markdown Plugin</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-container@2.0.0/dist/markdown-it-container.js"></script>
+    <script src="wasm_exec.js"></script>
+    <script src="./index.js"></script>
+    <script type="text/javascript" src="jquery.console.js"></script>
+
+    <style type="text/css" media="screen">
+        div.term {
+            font-size: 14px;
+            margin-top: 1em
+        }
+
+        div.term div.jquery-console-inner {
+            background: black;
+            padding: 0.5em;
+            overflow: auto
+        }
+
+        div.term div.jquery-console-prompt-box {
+            color: white;
+            font-family: monospace;
+        }
+
+        div.term div.jquery-console-focus span.jquery-console-cursor {
+            background: #444;
+            color: #eee;
+            font-weight: bold
+        }
+
+        div.term div.jquery-console-message-error {
+            color: #ef0505;
+            font-family: sans-serif;
+            font-weight: bold;
+            padding: 0.1em;
+        }
+
+        div.term div.jquery-console-message-success {
+            color: #09f753;
+            font-family: monospace;
+            padding: 0.1em;
+            white-space: pre;
+        }
+
+        div.term span.jquery-console-prompt-label {
+            font-weight: bold;
+        }
+
+
+
+        .loading-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            min-width: 100vw;
+            font-family: "Poppins", sans-serif;
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>TiDB Wasm Markdown Parser</h1>
+    <p>Feeling free enjoy TiDB on markdown! </p>
+    <div style="width:40%;float:left;border-right:1px solid #999;">
+        <div>
+            <textarea name="" id="text" placeholder="::: tisql SELECT * FROM USERS;" style="width:95%;min-height: 300px;">
+# About TiDB
+[tidb on pingcap](http://github.com/pingcap/tidb) is a NewSQL database working on OLAP & OLTP, and it's simliar to MySQL.
+# How to Using it
+the plugin is based on [markdown-it]() and [markdown-it-container](), just type keyword `tisql` and begin with `:::`,then you can write any SQL.
+
+**Notice: All SQL running on same Tidb instance(server).
+
+# Example
+
+## How to create a database on TiDB / MySQL.
+
+::: tisql CREATE DATABASE `test_db`;
+
+We already created a database now,we can use
+
+::: tisql SHOW DATABASES;
+
+to find it.
+
+## How to create  a table
+
+let us going the database
+::: tisql USE `test_db`;
+then,we starting create a simple table right now
+::: tisql CREATE TABLE `test_table` (id int auto_increment primary key, name char(128));
+
+## How to insert record
+
+insert single record
+::: tisql INSERT INTO `test_table` (`name`) VALUES('misko_lee');
+insert multi records
+::: tisql INSERT INTO `test_table` (`name`) VALUES ('Ed Huang'),('Miracle'),('Panda'),('Zhou Meng Kang');
+let us query them
+::: tisql SELECT * FROM `test_table`;
+            </textarea>
+        </div>
+        <input type="button" disabled="disabled" id="parser" value="Tidb Loading...">
+    </div>
+
+</div>
+<div style="float:right;width:58%;min-height:300px;background:#FAFAFA;padding:10px">
+    <div id="content">Please type your markdown and click button `Parser`.</div>
+</div>
+<script>
+    TiDBWasmMarkdown.loadTiDB("./main.css").then(function(){
+        $('#parser').val("Parser");
+        $('#parser').attr("disabled",false);
+    })
+
+    $("#parser").on("click",function(){
+        var markdown = $("#text").val();
+        var md = new markdownit();
+        TiDBWasmMarkdown.render($("#content"),md,markdown);
+    })
+
+</script>
+</body>
+</html>
