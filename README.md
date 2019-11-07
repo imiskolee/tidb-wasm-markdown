@@ -15,7 +15,7 @@ open `http://localhost:8000/example.html`
 
 # Screenshot
 
-![./demo.jpg](./demo.jpg)
+![./demo.jpg](https://github.com/imiskolee/tidb-wasm-markdown/raw/master/demo.png)
 
 
 
