@@ -14,6 +14,10 @@
     <script type="text/javascript" src="jquery.console.js"></script>
 
     <style type="text/css" media="screen">
+        body{
+            background: #273238;
+        }
+        *{margin:0;padding:0;box-sizing: border-box;}
         div.term {
             font-size: 14px;
             margin-top: 1em
@@ -54,8 +58,6 @@
             font-weight: bold;
         }
 
-
-
         .loading-wrap {
             display: flex;
             align-items: center;
@@ -65,17 +67,176 @@
             font-family: "Poppins", sans-serif;
             background-color: #000000;
         }
+        #container {
+            -webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        ul li {
+            list-style: none;
+        }
+        .navigation{
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            -webkit-transition: background 250ms;
+            transition: background 250ms;
+            background: #2B3A42;
+        }
+        .navigation_inner{
+            width: 100%;
+            margin: 0 auto;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            position: relative;
+            padding: 0.6em 1em;
+        }
+        .nav_link{
+            margin-right: 1.5em;
+            color: #ffffff;
+        }
+        .navigation_logo{
+            color: #ffffff;
+            font-size: 1.4em;
+        }
+        .navigation_icon{
+            color: #ffffff;
+        }
+        .navigation_links{
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            height: 56px;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+        }
+        .interactive{
+            min-height: 720px;
+            background: #2B3A42;
+            width: 100%;
+            position: relative;
+        }
+        .description{
+            display: inline-block;
+            width: 100%;
+            color: #ffffff;
+            text-align: center;
+            margin-top:6em;
+        }
+        .install{
+            max-width: 490px;
+            max-height: 84px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            z-index: 1;
+        }
+        .install-title{
+            text-align: center;
+            font-size:1.8em;
+            font-weight: 400;
+            color:#fff;
+            margin-bottom: 1em;
+        }
+        .lang-base{
+            display:inline-block;
+            background: #2B3A42;
+            color: #ffffff;
+            min-width:450px;
+            line-height: 1.4em;
+            padding:0.5em;
+            -webkit-user-select:text;
+            -moz-user-select:text;
+            -ms-user-select:text;
+            user-select:text;  
+        }
+        textarea{
+            outline: none;
+            border:none;
+            background: #31424a;
+            color:#ffffff;
+        }
+        #TryIt{
+            background: #273238;
+            overflow: hidden;
+        }
+        .content a{
+            color:#ffffff !important;
+        }
+        .content p{
+            font-size: 1.2em;
+            line-height: 1.8em;
+        }
+        .content h1{
+            font-size: 1.8em;
+            line-height: 2em;
+        }
+        #parser{
+            outline: none;
+            border: none;
+            padding: 0.8em 2.6em;
+        }
+        .left-textarea{
+            width: 41%;
+            float: left;
+            padding-left: 10px;
+            padding-top: 10px;
+        }
+        .right-content{
+            float:right;
+            width:58%;
+            min-height:370px;
+            color:#fff; 
+            padding:10px; 
+            border-left:1px solid #999;
+        }
     </style>
 </head>
 <body>
-<div>
-    <h1>TiDB Wasm Markdown Parser</h1>
-    <p>Feeling free enjoy TiDB on markdown! </p>
-    <div style="width:40%;float:left;border-right:1px solid #999;">
-        <div>
-            <textarea name="" id="text" placeholder="::: tisql SELECT * FROM USERS;" style="width:95%;min-height: 300px;">
+
+<div id="container">
+    <header class="navigation">
+        <div class="navigation_inner">
+            <a href="/" class="navigation_logo">TiDB Wasm Markdown Parser</a>
+            <nav class="navigation_links">
+                <a href="#TryIt" class="nav_link">Try it</a>
+                <a href="https://github.com/imiskolee/tidb-wasm-markdown" class="navigation_icon">Github</a>
+            </nav>
+        </div>
+    </header>
+    <div class="content">
+        <div class="interactive">
+            <h2 class="description">TiDB on PingCAP is a NewSQL database working on OLAP & OLTP, and it`s simliar to MySQL.</h2>
+            <div class="install">
+                <h4 class="install-title">Install</h4>
+                <div class="lang-base">
+<pre>
+<span>git clone https://github.com/imiskolee/tidb-wasm-markdown.git</span>
+<span>cd tidb-wasm-markdown</span>
+<span>python -m SimpleHTTPServer 8000</span>
+</pre>
+                </div>
+            </div>
+        </div>
+        <div id="TryIt">
+            <div class="left-textarea">
+                    <textarea name="" id="text" placeholder="::: tisql SELECT * FROM USERS;" style="width: 100%; min-height: 360px; padding: 10px;font-size: 1em; line-height: 1.2em;">
 # About TiDB
 [tidb on pingcap](http://github.com/pingcap/tidb) is a NewSQL database working on OLAP & OLTP, and it's simliar to MySQL.
+
 # How to Using it
 the plugin is based on [markdown-it]() and [markdown-it-container](), just type keyword `tisql` and begin with `:::`,then you can write any SQL.
 
@@ -88,7 +249,6 @@ the plugin is based on [markdown-it]() and [markdown-it-container](), just type 
 ::: tisql CREATE DATABASE `test_db`;
 
 We already created a database now,we can use
-
 ::: tisql SHOW DATABASES;
 
 to find it.
@@ -97,26 +257,32 @@ to find it.
 
 let us going the database
 ::: tisql USE `test_db`;
+
 then,we starting create a simple table right now
 ::: tisql CREATE TABLE `test_table` (id int auto_increment primary key, name char(128));
 
 ## How to insert record
 
 insert single record
-::: tisql INSERT INTO `test_table` (`name`) VALUES('misko_lee');
+::: tisql INSERT INTO `test_table` (`name`) VALUES('Misko_lee');
+
 insert multi records
-::: tisql INSERT INTO `test_table` (`name`) VALUES ('Ed Huang'),('Miracle'),('Panda'),('Zhou Meng Kang');
+::: tisql INSERT INTO `test_table` (`name`) VALUES ('Ed Huang'), ('Wang Jinsong'), ('Miracle'), ('Peng Liang'), ('Panda'),('Zhou Meng Kang');
+
 let us query them
 ::: tisql SELECT * FROM `test_table`;
-            </textarea>
-        </div>
-        <input type="button" disabled="disabled" id="parser" value="Tidb Loading...">
-    </div>
+                    </textarea>
+                
+                <input type="button" disabled="disabled" id="parser" value="Tidb Loading...">
+            </div>
 
+            <div class="right-content">
+                <div id="mdContent">Please type your markdown and click button `Parser`.</div>
+            </div>
+        </div>
+    </div>
 </div>
-<div style="float:right;width:58%;min-height:300px;background:#FAFAFA;padding:10px">
-    <div id="content">Please type your markdown and click button `Parser`.</div>
-</div>
+
 <script>
     TiDBWasmMarkdown.loadTiDB("./main.css").then(function(){
         $('#parser').val("Parser");
@@ -126,9 +292,8 @@ let us query them
     $("#parser").on("click",function(){
         var markdown = $("#text").val();
         var md = new markdownit();
-        TiDBWasmMarkdown.render($("#content"),md,markdown);
+        TiDBWasmMarkdown.render($("#mdContent"),md,markdown);
     })
-
 </script>
 </body>
 </html>
