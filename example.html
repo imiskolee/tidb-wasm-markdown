@@ -219,7 +219,7 @@
     </header>
     <div class="content">
         <div class="interactive">
-            <h2 class="description">TiDB on PingCAP is a NewSQL database working on OLAP & OLTP, and it`s simliar to MySQL.</h2>
+            <h2 class="description">TiDB WASM Markdown Plugin</h2>
             <div class="install">
                 <h4 class="install-title">Install</h4>
                 <div class="lang-base">
@@ -227,6 +227,7 @@
 <span>git clone https://github.com/imiskolee/tidb-wasm-markdown.git</span>
 <span>cd tidb-wasm-markdown</span>
 <span>python -m SimpleHTTPServer 8000</span>
+    <span>在浏览器中打开 http://localhost:8080/example.html</span>
 </pre>
                 </div>
             </div>
@@ -234,42 +235,43 @@
         <div id="TryIt">
             <div class="left-textarea">
                     <textarea name="" id="text" placeholder="::: tisql SELECT * FROM USERS;" style="width: 100%; min-height: 360px; padding: 10px;font-size: 1em; line-height: 1.2em;">
-# About TiDB
-[tidb on pingcap](http://github.com/pingcap/tidb) is a NewSQL database working on OLAP & OLTP, and it's simliar to MySQL.
+# 关于TiDB
+[tidb on pingcap](http://github.com/pingcap/tidb) 是一款与MySQL高度兼容的NewSQL数据库，兼顾了OLAP & OLTP 场景。
 
-# How to Using it
-the plugin is based on [markdown-it]() and [markdown-it-container](), just type keyword `tisql` and begin with `:::`,then you can write any SQL.
+# 如何使用
+这个插件是基于[https://github.com/markdown-it/markdown-it](https://github.com/markdown-it/markdown-it)解析器的一个插件。 只需要在SQL语句前以 `::: tisql`开始标记，就可以进行解析。
 
-**Notice: All SQL running on same Tidb instance(server).
+**注意: 基于性能考量，所有的SQL语句都运行在同一个数据库实例中.
 
-# Example
+# 使用示例
 
-## How to create a database on TiDB / MySQL.
+## 如何创建一个数据库
 
 ::: tisql CREATE DATABASE `test_db`;
 
-We already created a database now,we can use
+我们已经成功的在TiDB中创建了一个数据库，可以使用
 ::: tisql SHOW DATABASES;
 
-to find it.
+看到我们刚才创建好的数据库。
 
-## How to create  a table
+## 如何创建一个数据表
 
-let us going the database
+我们先进入到这个数据库
+
 ::: tisql USE `test_db`;
 
-then,we starting create a simple table right now
+现在开始创建一个简单的数据表
 ::: tisql CREATE TABLE `test_table` (id int auto_increment primary key, name char(128));
 
-## How to insert record
+## 插入数据
 
-insert single record
+插入一行数据
 ::: tisql INSERT INTO `test_table` (`name`) VALUES('Misko_lee');
 
-insert multi records
+插入多行数据
 ::: tisql INSERT INTO `test_table` (`name`) VALUES ('Ed Huang'), ('Wang Jinsong'), ('Miracle'), ('Peng Liang'), ('Panda'),('Zhou Meng Kang');
 
-let us query them
+查询数据
 ::: tisql SELECT * FROM `test_table`;
                     </textarea>
                 
@@ -277,7 +279,7 @@ let us query them
             </div>
 
             <div class="right-content">
-                <div id="mdContent">Please type your markdown and click button `Parser`.</div>
+                <div id="mdContent">请点击左侧`Parser`按钮进行解析。</div>
             </div>
         </div>
     </div>
