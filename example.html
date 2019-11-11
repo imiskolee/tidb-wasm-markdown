@@ -227,7 +227,7 @@
 <span>git clone https://github.com/imiskolee/tidb-wasm-markdown.git</span>
 <span>cd tidb-wasm-markdown</span>
 <span>python -m SimpleHTTPServer 8000</span>
-    <span>Open http://localhost:8080/example.html on your browser.</span>
+<span>Open http://localhost:8080/example.html on your browser(which supported WASM).</span>
 </pre>
                 </div>
             </div>
@@ -236,8 +236,8 @@
             <div class="left-textarea">
                     <textarea name="" id="text" placeholder="::: tisql SELECT * FROM USERS;" style="width: 100%; min-height: 360px; padding: 10px;font-size: 1em; line-height: 1.2em;">
 # About this project
-Here is a (markdown-it)[] plugin for run TiDB WASM Instance on markdown. just insert keyword `::: tisql ` before SQL,
-then run the SQL on TiDB WASM instance.
+Here is a (markdown-it)[] plugin for run TiDB WASM Instance on markdown. just insert keyword `::: tisql ` before which SQL you want to run,
+then automatic run the SQL on the TiDB WASM instance and append result panel.
 
 # About TiDB Wasm
 This is a amazing idea from Pingcap 2019 hackathon, and try it out on [http://tour.tidb.io](http://tour.tidb.io).
