@@ -18,6 +18,6 @@ open `http://localhost:8000/example.html`
 
 # Road Map
 
-* 进入更合理的封装
-* 支持更多的操作指令
+* Support more controls instruction
+
 
