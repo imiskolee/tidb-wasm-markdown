@@ -227,7 +227,7 @@
 <span>git clone https://github.com/imiskolee/tidb-wasm-markdown.git</span>
 <span>cd tidb-wasm-markdown</span>
 <span>python -m SimpleHTTPServer 8000</span>
-    <span>在浏览器中打开 http://localhost:8080/example.html</span>
+    <span>Open http://localhost:8080/example.html on your browser.</span>
 </pre>
                 </div>
             </div>
@@ -235,56 +235,229 @@
         <div id="TryIt">
             <div class="left-textarea">
                     <textarea name="" id="text" placeholder="::: tisql SELECT * FROM USERS;" style="width: 100%; min-height: 360px; padding: 10px;font-size: 1em; line-height: 1.2em;">
-# 关于TiDB
-[tidb on pingcap](http://github.com/pingcap/tidb) 是一款与MySQL高度兼容的NewSQL数据库，兼顾了OLAP & OLTP 场景。
+# About this project
+Here is a (markdown-it)[] plugin for run TiDB WASM Instance on markdown. just insert keyword `::: tisql ` before SQL,
+then run the SQL on TiDB WASM instance.
 
-# 如何使用
-这个插件是基于[https://github.com/markdown-it/markdown-it](https://github.com/markdown-it/markdown-it)解析器的一个插件。 只需要在SQL语句前以 `::: tisql`开始标记，就可以进行解析。
+# About TiDB Wasm
+This is a amazing idea from Pingcap 2019 hackathon, and try it out on [http://tour.tidb.io](http://tour.tidb.io).
 
-**注意: 基于性能考量，所有的SQL语句都运行在同一个数据库实例中.
+# Demo Doc(from http://tour.tidb.io))
 
-# 使用示例
+This is a demo site to show how you can use [TiDB-Wasm](https://github.com/pingcap/tidb/pull/13069) to run TiDB SQL statements your browser.
 
-## 如何创建一个数据库
+TiDB-Wasm is the second-place project from [2019 TiDB Hackathon](https://pingcap.com/blog/insert-into-tidb-hackathon-2019-values-hack-fun-tidb-ecosystem/) by leveraging the magic of [WebAssembly (Wasm)](https://webassembly.org/), [Golang](https://golang.org/), and [TiDB community](https://github.com/pingcap/community). It is primarily designed for our users to experiment with SQL and test out TiDB compatibility with MySQL queries.
 
-::: tisql CREATE DATABASE `test_db`;
+# Explore TiDB SQL with TiDB-Wasm
 
-我们已经成功的在TiDB中创建了一个数据库，可以使用
+TiDB is compatible with MySQL, you can use MySQL statements directly in most of the cases. For unsupported features, see [Compatibility with MySQL](https://pingcap.com/docs/stable/reference/mysql-compatibility/).
+
+This page walks you through the basic TiDB SQL statements such as DDL, DML and CRUD operations. For a complete list of the TiDB statements, see [TiDB SQL Syntax Diagram](https://pingcap.github.io/sqlgram/).
+
+## Show the TiDB version
+
+To show the TiDB version, use the `SELECT tidb_version()` statement:
+
+::: tisql SELECT tidb_version();
+
+## Create a database
+
+To create a database, use the `CREATE DATABASE` statement:
+
+::: tisql CREATE DATABASE IF NOT EXISTS samp_db;
+
+### Show the databases
+
+To show the databases, use the `SHOW DATABASES` statement:
 ::: tisql SHOW DATABASES;
 
-看到我们刚才创建好的数据库。
 
-## 如何创建一个数据表
+### Create, and show a table in the samp_db
 
-我们先进入到这个数据库
+Before creating a table, use the `USE samp_db` statement:
+::: tisql  Use samp_db;
 
-::: tisql USE `test_db`;
+### Create a table
 
-现在开始创建一个简单的数据表
-::: tisql CREATE TABLE `test_table` (id int auto_increment primary key, name char(128));
+- To create a table, use the `CREATE TABLE` statement:
 
-## 插入数据
+::: tisql CREATE TABLE table_name column_name data_type constraint;
 
-插入一行数据
-::: tisql INSERT INTO `test_table` (`name`) VALUES('Misko_lee');
+    For example:
 
-插入多行数据
-::: tisql INSERT INTO `test_table` (`name`) VALUES ('Ed Huang'), ('Wang Jinsong'), ('Miracle'), ('Peng Liang'), ('Panda'),('Zhou Meng Kang');
+::: tisql  CREATE TABLE person ( number INT(11) PRIMARY KEY,name VARCHAR(255),region VARCHAR(255),birthday DATE);
 
-查询数据
-::: tisql SELECT * FROM `test_table`;
+
+- Add `IF NOT EXISTS` to prevent an error if the table exists:
+
+::: tisql  CREATE TABLE IF NOT EXISTS person (number INT(11) PRIMARY KEY,name VARCHAR(255),region VARCHAR(255),birthday DATE);
+
+
+- To view the statement that creates the table, use the `SHOW CREATE` statement:
+
+::: tisql SHOW CREATE table person;
+
+### Show the tables
+
+- To show all the tables in a database, use the `SHOW TABLES` statement:
+
+::: tisql SHOW TABLES FROM samp_db;
+
+
+- To show all the columns in a table, use the `SHOW FULL COLUMNS` statement:
+
+### Create, show, and drop an index
+
+### Create an index
+
+- To create an index for the column whose value is not unique, use the `CREATE INDEX` or `ALTER TABLE` statement:
+
+::: tisql CREATE INDEX person_num ON person (number);
+    or
+
+
+::: tisql  ALTER TABLE person ADD INDEX person_num (number);
+
+- To create a unique index for the column whose value is unique, use the `CREATE UNIQUE INDEX` or `ALTER TABLE` statement:
+
+::: tisql  CREATE UNIQUE INDEX person_num ON person (number);
+    or
+
+::: tisql     ALTER TABLE person ADD UNIQUE person_num (number);
+
+### Show the indexes
+
+To show all the indexes in a table, use the `SHOW INDEX` statement:
+
+::: tisql  SHOW INDEX from person;
+
+### Delete an index
+
+To delete an index, use the `DROP INDEX` or `ALTER TABLE` statement:
+
+::: tisql  DROP INDEX person_num ON person;
+
+::: tisql  ALTER TABLE person DROP INDEX person_num;
+
+## Insert, select, update, and delete data
+
+### Insert data
+
+To insert data into a table, use the `INSERT` statement:
+
+::: tisql  INSERT INTO person VALUES(1,"tom","north","20191027"),(2,"bob","west","20181027"),(3,"jay","north","20181025"),(4,"jerry","north","20181023");
+
+### Select data
+
+To view the data in a table, use the `SELECT` statement:
+
+::: tisql SELECT * FROM person;
+
+You can also sort the data in the table and view the result:
+
+::: tisql SELECT * FROM person ORDER BY birthday;
+
+You can group the data in the table and view the result:
+
+::: tisql SELECT count(*), region FROM person GROUP BY region;
+
+### Explain SQL
+
+To view the SQL query execution plan in TiDB and explore its difference from MySQL, use the `EXPLAIN` statement:
+
+::: tisql EXPLAIN SELECT * FROM person order by birthday;
+
+For more information, see [the TiDB `EXPLAIN` output format](https://pingcap.com/docs/stable/reference/performance/understanding-the-query-execution-plan/#explain-output-format)
+
+### Update data
+
+To update the data in a table, use the `UPDATE` statement:
+
+::: tisql UPDATE person SET birthday='20191106' WHERE name='tom';
+
+::: tisql SELECT * FROM person;
+
+### Delete data
+
+To delete the data in a table, use the `DELETE` statement:
+
+::: tisql DELETE FROM person WHERE number=1;
+
+::: tisql SELECT * FROM person;
+
+If you finish working with the sample table and database, feel free to delete the table and the database:
+
+## Delete a table
+
+To delete a table, use the `DROP TABLE` statement:
+
+::: tisql DROP TABLE person;
+or
+
+::: tisql DROP TABLE IF EXISTS person;
+
+## Delete a database
+
+To delete a database, use the `DROP DATABASE` statement:
+
+::: tisql DROP DATABASE samp_db;
+
+## Create, authorize, and delete a user
+
+### Create a user
+
+To create a user, use the `CREATE USER` statement. The following example creates a user named `tiuser` with the password `123456`:
+
+::: tisql CREATE USER 'tiuser'@'localhost' IDENTIFIED BY '123456';
+
+### Authorize a user
+
+- To grant `tiuser` the privilege to retrieve the tables in the `samp_db` database:
+
+::: tisql GRANT SELECT ON samp_db.* TO 'tiuser'@'localhost';
+
+- To check the privileges of `tiuser`:
+
+::: tisql SHOW GRANTS for tiuser@localhost;
+
+### Delete a user
+
+To delete `tiuser`:
+
+::: tisql DROP USER 'tiuser'@'localhost';
+
+# What's next?
+
+After testing out TiDB compatibility with MySQL queries, you can now choose one of the following deployment options to deploy a TiDB cluster on-premise or in-cloud.
+
+- [Deploy TiDB using TiDB-Ansible](https://pingcap.com/docs/stable/how-to/deploy/orchestrated/ansible/) Highly recommended for production deployment.
+- [Deploy TiDB using Docker](https://pingcap.com/docs/stable/how-to/deploy/orchestrated/docker/)
+- Deploy TiDB using Kubernetes via [TiDB Operator](https://github.com/pingcap/tidb-operator) on public cloud or locally:
+
+    - [AWS EKS (Elastic Kubernetes Service)](https://pingcap.com/docs/stable/tidb-in-kubernetes/deploy/aws-eks/)
+    - [GKE (Google Kubernetes Engine)](https://pingcap.com/docs/stable/tidb-in-kubernetes/deploy/gcp-gke/)
+    - [Google Cloud Shell](https://pingcap.com/docs/stable/tidb-in-kubernetes/get-started/deploy-tidb-from-kubernetes-gke/)
+
+    Or deploy TiDB locally using:
+
+    - [kind](https://pingcap.com/docs/stable/tidb-in-kubernetes/get-started/deploy-tidb-from-kubernetes-kind/)
+    - [Minikube](https://pingcap.com/docs/stable/tidb-in-kubernetes/get-started/deploy-tidb-from-kubernetes-minikube/)
+
+- [Deploy TiDB using Binary Tarball](https://pingcap.com/docs/stable/how-to/deploy/from-tarball/production-environment/): To deploy TiDB from a binary tarball in production. Guides for [development](https://pingcap.com/docs/stable/how-to/get-started/deploy-tidb-from-binary/) and [testing](https://pingcap.com/docs/stable/how-to/deploy/from-tarball/testing-environment/) environments are also available.
+
+If you have any questions, feel free to contact us via [TiDB Community Slack](https://pingcap.com/tidbslack) or [Email](mailto:info@pingcap.com).
+
+
                     </textarea>
                 
                 <input type="button" disabled="disabled" id="parser" value="Tidb Loading...">
             </div>
-
             <div class="right-content">
-                <div id="mdContent">请点击左侧`Parser`按钮进行解析。</div>
+                <div id="mdContent">Please press `Parser` button to parse markdown to HTML.</div>
             </div>
         </div>
     </div>
 </div>
-
 <script>
     TiDBWasmMarkdown.loadTiDB("./main.css").then(function(){
         $('#parser').val("Parser");
